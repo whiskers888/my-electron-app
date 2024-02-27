@@ -1,0 +1,27 @@
+/* Entry.css */
+
+.entry {
+	position: relative;
+	margin: 8px;
+}
+
+.entry-label {
+	position: absolute;
+	background: #fff;
+	left: 5px;
+	border-radius: 2px 2px 0px 0px;
+	color: #696969;
+	font-size: 14px;
+	font-weight: bolder;
+	transition: all 0.3s ease;
+	pointer-events: none;
+}
+
+.entry-input {
+	position: relative;
+	border-radius: 4px;
+	padding: 6px 12px;
+	font-size: 14px;
+	margin: 5px;
+	border: 1px solid #8f49a7;
+}
