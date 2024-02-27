@@ -1,10 +1,10 @@
 import './App.css';
-import Authorization from './screens/Authorization';
+import SignInSide from './screens/Authorization';
 
 export default function App() {
 	return (
 		<main>
-			<Authorization />
+			<SignInSide />
 		</main>
 	);
 }
