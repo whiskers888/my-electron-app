@@ -1,20 +1,29 @@
 {
-  "name": "my-electron-app",
-  "version": "1.0.0",
-  "description": "Hello World!",
-  "main": "dist/main.js",
-  "scripts": {
-    "transpile": "tsc",
-    "watch": "ts-node-dev --respawn --poll ./src/main.ts",
-    "app": "electron .",
-    "build": "electron-packager . --out=build --overwrite"
-  },
-  "author": "Tremba",
-  "license": "MIT",
-  "devDependencies": {
-    "electron": "^29.0.1",
-    "electron-packager": "^17.1.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.3"
-  }
+	"name": "my-electron-app",
+	"version": "1.0.0",
+	"main": "dist/main.js",
+	"scripts": {
+		"transpile": "tsc",
+		"watch": "ts-node-dev --respawn --poll ./src/main.ts",
+		"app": "electron .",
+		"build": "electron-packager . --out=build --overwrite",
+		"lint": "npx eslint **/*.{ts/tsx}",
+		"lint:fix": "npx eslint **/*.{ts/tsx} --fix"
+	},
+	"author": "Tremba",
+	"license": "MIT",
+	"devDependencies": {
+		"electron": "^29.0.1",
+		"electron-packager": "^17.1.2",
+		"eslint": "^8.35.0",
+		"eslint-config-prettier": "^8.7.0",
+		"eslint-config-xo": "^0.43.1",
+		"eslint-config-xo-typescript": "^0.34.0",
+		"eslint-plugin-electron": "^7.0.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-react": "^7.32.2",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"ts-node-dev": "^2.0.0",
+		"typescript": "^5.3.3"
+	}
 }
