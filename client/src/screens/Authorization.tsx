@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useApiRequest } from '../dispatch/dispatch'; // Предполагается, что useApiRequest находится в том же файле
 
 function Copyright(props: any) {
 	return (
@@ -28,15 +29,37 @@ function Copyright(props: any) {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+interface SignInSideProps {
+	onLogin: (token: string) => void;
+}
 
-export default function SignInSide() {
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+export default function SignInSide({ onLogin }: SignInSideProps) {
+	const { request, loading, error } = useApiRequest<{ token: string }>();
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get('email'),
-			password: data.get('password')
-		});
+		const formData = new FormData(event.currentTarget);
+		const userModel = {
+			email: formData.get('email'),
+			password: formData.get('password')
+		};
+
+		try {
+			await request('http://localhost:3001/api/auth/sign-in', 'POST', JSON.stringify(userModel)).then(data =>{
+				if (data && data.token) {
+					localStorage.setItem('authToken', data.token);
+					onLogin(data.token);
+					console.log('Success:', data);
+				} else {
+					setErrorMessage('Токен не получен');
+				}
+			});
+
+			
+		} catch (err) {
+			setErrorMessage('Ошибка при отправке запроса');
+		}
 	};
 
 	return (
@@ -113,13 +136,14 @@ export default function SignInSide() {
 								id="password"
 								autoComplete="current-password"
 							/>
+							{errorMessage && <Typography color="error">{errorMessage}</Typography>}
 							<Button
 								type="submit"
 								fullWidth
 								variant="contained"
 								sx={{ mt: 3, mb: 2 }}
 							>
-								Sign In
+								{loading ? 'Загрузка...' : 'Sign In'}
 							</Button>
 							<Copyright sx={{ mt: 5 }} />
 						</Box>
